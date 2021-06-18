@@ -114,25 +114,45 @@ public class nueva_salida_2 extends javax.swing.JFrame {
         }
         table.getColumnModel().getColumn(1).setPreferredWidth(300);
     }
+    public void obtenertipo(){
+        Connection conexion = cn.conector();
+        String sql = "select producto.TIPO_UNIDADES from producto where (producto.CODIGO = "+codproduct+");";
+        Statement st;
+        try {
+            st = conexion.createStatement();
+            ResultSet result = st.executeQuery(sql);
+            
+            while (result.next()){
+              String tipo = result.getString(1);
+              tipotxt.setText(tipo);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(solicitar_producto.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            cn.cierraConexion();
+            
+        }
+    }
     public void guardar(){
         fecha();
-        String validar = (String)combobox.getSelectedItem();
+        String validar = tipotxt.getText();
         String validar2 = (String)combodepto.getSelectedItem();
         if((validar2!=" ")&& (txtcantidad.getText().length()!=0)&& (txtnumpedido.getText().length()!=0)){
             if(validar.equals("LIBRAS")||validar.equals("UNIDADES")){
                     Connection conexion = cn.conector();
                     String codigo = this.codproduct;
-                    String unidad = (String)combobox.getSelectedItem();
+                    String unidad = tipotxt.getText();
                     String user = nombre;
                     String date = this.fecha;
                     String depto = (String)combodepto.getSelectedItem();
                     String nopedido = txtnumpedido.getText();
                     String cant = txtcantidad.getText();
+                    String motivo = motivotxt.getText();
                     String sql;
                     if(unidad.equals("UNIDADES")){
                         sql = "INSERT INTO `bodega`.`salidas` (`CODIGO`, `USUARIO`, `DEPTO`, `FECHA_EGRESO`, `NO_PEDIDO`"
-                            + ", `CANT_UNIT`, `CANT_LBS`) VALUES ("+codigo+", '"
-                            +user+"', '"+depto+"', '"+date+"', "+nopedido+", "+cant+", 0);";
+                            + ", `CANT_UNIT`, `CANT_LBS`, `MOTIVO`) VALUES ("+codigo+", '"
+                            +user+"', '"+depto+"', '"+date+"', "+nopedido+", "+cant+",0, '"+motivo+"');";
                         try {
                             PreparedStatement st = conexion.prepareStatement(sql);
                             st.executeUpdate();
@@ -145,8 +165,8 @@ public class nueva_salida_2 extends javax.swing.JFrame {
                     }
                     if(unidad.equals("LIBRAS")){
                         sql = "INSERT INTO `bodega`.`salidas` (`CODIGO`, `USUARIO`, `DEPTO`, `FECHA_EGRESO`, `NO_PEDIDO`"
-                            + ", `CANT_UNIT`, `CANT_LBS`) VALUES ("+codigo+", '"
-                            +user+"', '"+depto+"', '"+date+"', "+nopedido+", 0, "+cant+");";
+                            + ", `CANT_UNIT`, `CANT_LBS`, `MOTIVO`) VALUES ("+codigo+", '"
+                            +user+"', '"+depto+"', '"+date+"', "+nopedido+", 0, "+cant+", '"+motivo+"');";
                         try {
                             PreparedStatement st = conexion.prepareStatement(sql);
                             st.executeUpdate();
@@ -180,7 +200,6 @@ public class nueva_salida_2 extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         txtcantidad = new rscomponentshade.RSTextFieldShade();
-        combobox = new javax.swing.JComboBox<>();
         rSButtonShade1 = new rscomponentshade.RSButtonShade();
         txtproducto = new javax.swing.JLabel();
         txtnumpedido = new rscomponentshade.RSTextFieldShade();
@@ -190,6 +209,9 @@ public class nueva_salida_2 extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         busqueda2 = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
+        tipotxt = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        motivotxt = new rscomponentshade.RSTextFieldShade();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Nueva Salida de Producto");
@@ -221,14 +243,11 @@ public class nueva_salida_2 extends javax.swing.JFrame {
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(26, 129, 135));
-        jLabel6.setText("Unidades:");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(578, 391, -1, -1));
+        jLabel6.setText("Motivo de salida:");
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 450, -1, -1));
 
         txtcantidad.setPlaceholder("Cantidad");
         jPanel1.add(txtcantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(682, 381, 89, -1));
-
-        combobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "UNIDADES", "LIBRAS" }));
-        jPanel1.add(combobox, new org.netbeans.lib.awtextra.AbsoluteConstraints(789, 395, -1, -1));
 
         rSButtonShade1.setBackground(new java.awt.Color(26, 129, 135));
         rSButtonShade1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/guardar.png"))); // NOI18N
@@ -239,7 +258,7 @@ public class nueva_salida_2 extends javax.swing.JFrame {
                 rSButtonShade1ActionPerformed(evt);
             }
         });
-        jPanel1.add(rSButtonShade1, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 490, -1, -1));
+        jPanel1.add(rSButtonShade1, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 520, -1, -1));
 
         txtproducto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jPanel1.add(txtproducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(672, 210, 310, 22));
@@ -297,6 +316,17 @@ public class nueva_salida_2 extends javax.swing.JFrame {
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/buscar.png"))); // NOI18N
         jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 60, -1, -1));
 
+        tipotxt.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jPanel1.add(tipotxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 390, 90, 20));
+
+        jLabel8.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(26, 129, 135));
+        jLabel8.setText("Unidades:");
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(578, 391, -1, -1));
+
+        motivotxt.setPlaceholder("Motivo");
+        jPanel1.add(motivotxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 440, -1, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -324,7 +354,8 @@ public class nueva_salida_2 extends javax.swing.JFrame {
         this.codproduct = String.valueOf(tm.getValueAt(table.getSelectedRow(),0));
         this.producto = String.valueOf(tm.getValueAt(table.getSelectedRow(),1));
         this.categoria = String.valueOf(tm.getValueAt(table.getSelectedRow(),2));
-        txtproducto.setText(this.producto);        // TODO add your handling code here:
+        txtproducto.setText(this.producto);
+        obtenertipo();        // TODO add your handling code here:
     }//GEN-LAST:event_tableMouseClicked
 
     private void busqueda2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_busqueda2KeyPressed
@@ -368,7 +399,6 @@ public class nueva_salida_2 extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField busqueda2;
-    private javax.swing.JComboBox<String> combobox;
     private javax.swing.JComboBox<String> combodepto;
     private com.toedter.calendar.JDateChooser date;
     private javax.swing.JLabel jLabel1;
@@ -378,10 +408,13 @@ public class nueva_salida_2 extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private rscomponentshade.RSTextFieldShade motivotxt;
     private rscomponentshade.RSButtonShade rSButtonShade1;
     private rojerusan.RSTableMetro table;
+    private javax.swing.JLabel tipotxt;
     public rscomponentshade.RSTextFieldShade txtcantidad;
     private rscomponentshade.RSTextFieldShade txtnumpedido;
     public javax.swing.JLabel txtproducto;

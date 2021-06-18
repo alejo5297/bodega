@@ -7,7 +7,9 @@ package bodega;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -24,7 +26,7 @@ public class nueva_salida extends javax.swing.JFrame {
     Bodega bd = new Bodega();
     public String numpedido,depto,cant,producto,fecha,codproduct;
     public String nombre = bd.nombre;
-    public String id =bd.id;
+    public String id = bd.id;
     
     public nueva_salida() {
         initComponents();
@@ -40,6 +42,7 @@ public class nueva_salida extends javax.swing.JFrame {
         this.txtproducto.setText(producto);
         this.txtdepto.setText(depto);
         this.txtcantidad.setText(cant);
+        obtenertipo();
     }
     
     Conexion cn = new Conexion();
@@ -71,7 +74,7 @@ public class nueva_salida extends javax.swing.JFrame {
     actualizar();
     Connection conexion = cn.conector();
     String codigo = this.codproduct;
-    String unidad = (String)combobox.getSelectedItem();
+    String unidad = tipotxt.getText();
     String user = nombre;
     String date = this.fecha;
     String depto = this.depto;
@@ -80,8 +83,8 @@ public class nueva_salida extends javax.swing.JFrame {
     String sql;
     if(unidad.equals("UNIDADES")){
         sql = "INSERT INTO `bodega`.`salidas` (`CODIGO`, `USUARIO`, `DEPTO`, `FECHA_EGRESO`, `NO_PEDIDO`"
-            + ", `CANT_UNIT`, `CANT_LBS`) VALUES ("+codigo+", '"
-            +user+"', '"+depto+"', '"+date+"', "+nopedido+", "+cant+", 0);";
+            + ", `CANT_UNIT`, `CANT_LBS`, `MOTIVO`) VALUES ("+codigo+", '"
+            +user+"', '"+depto+"', '"+date+"', "+nopedido+", "+cant+", 0, 'Despacho de producto.');";
         try {
             PreparedStatement st = conexion.prepareStatement(sql);
             st.executeUpdate();
@@ -94,8 +97,8 @@ public class nueva_salida extends javax.swing.JFrame {
     }
     if(unidad.equals("LIBRAS")){
         sql = "INSERT INTO `bodega`.`salidas` (`CODIGO`, `USUARIO`, `DEPTO`, `FECHA_EGRESO`, `NO_PEDIDO`"
-            + ", `CANT_UNIT`, `CANT_LBS`) VALUES ("+codigo+", '"
-            +user+"', '"+depto+"', '"+date+"', "+nopedido+", 0, "+cant+");";
+            + ", `CANT_UNIT`, `CANT_LBS`, `MOTIVO`) VALUES ("+codigo+", '"
+            +user+"', '"+depto+"', '"+date+"', "+nopedido+", 0, "+cant+", 'Despacho de producto.');";
         try {
             PreparedStatement st = conexion.prepareStatement(sql);
             st.executeUpdate();
@@ -108,6 +111,25 @@ public class nueva_salida extends javax.swing.JFrame {
             cn.cierraConexion();
         }
     }
+    }
+    public void obtenertipo(){
+        Connection conexion = cn.conector();
+        String sql = "select producto.TIPO_UNIDADES from producto where (producto.CODIGO = "+id+");";
+        Statement st;
+        try {
+            st = conexion.createStatement();
+            ResultSet result = st.executeQuery(sql);
+            
+            while (result.next()){
+              String tipo = result.getString(1);
+              tipotxt.setText(tipo);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(solicitar_producto.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            cn.cierraConexion();
+            
+        }
     }
     
     @SuppressWarnings("unchecked")
@@ -122,12 +144,12 @@ public class nueva_salida extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         txtcantidad = new rscomponentshade.RSTextFieldShade();
-        combobox = new javax.swing.JComboBox<>();
         rSButtonShade1 = new rscomponentshade.RSButtonShade();
         txtnumpedido = new javax.swing.JLabel();
         txtproducto = new javax.swing.JLabel();
         txtdepto = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        tipotxt = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Despacho de Producto");
@@ -159,14 +181,11 @@ public class nueva_salida extends javax.swing.JFrame {
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(26, 129, 135));
-        jLabel6.setText("Unidades:");
+        jLabel6.setText("Cantidad:");
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 330, -1, -1));
 
         txtcantidad.setPlaceholder("Cantidad");
         jPanel1.add(txtcantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 320, 89, -1));
-
-        combobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "UNIDADES", "LIBRAS" }));
-        jPanel1.add(combobox, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 330, -1, -1));
 
         rSButtonShade1.setBackground(new java.awt.Color(26, 129, 135));
         rSButtonShade1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/salida (1).png"))); // NOI18N
@@ -192,6 +211,9 @@ public class nueva_salida extends javax.swing.JFrame {
         jLabel5.setForeground(new java.awt.Color(26, 129, 135));
         jLabel5.setText("Salida de Producto");
         jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 20, -1, -1));
+
+        tipotxt.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jPanel1.add(tipotxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 330, 110, 20));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -247,7 +269,6 @@ public class nueva_salida extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> combobox;
     private com.toedter.calendar.JDateChooser date;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -257,6 +278,7 @@ public class nueva_salida extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private rscomponentshade.RSButtonShade rSButtonShade1;
+    private javax.swing.JLabel tipotxt;
     public rscomponentshade.RSTextFieldShade txtcantidad;
     public javax.swing.JLabel txtdepto;
     public javax.swing.JLabel txtnumpedido;

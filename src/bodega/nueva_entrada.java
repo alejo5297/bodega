@@ -38,7 +38,7 @@ public class nueva_entrada extends javax.swing.JFrame {
         table.getColumnModel().getColumn(2).setPreferredWidth(50);
     }
     
-    String id, desc, cat, fecha, fechavenc;
+    String id, desc, cat, fecha, fechavenc, tipo_unidades;
     Conexion cn = new Conexion();
     
     public void fecha(){
@@ -53,6 +53,26 @@ public class nueva_entrada extends javax.swing.JFrame {
         this.fechavenc = fecha3;
     } catch (Exception e) {
     }
+    }
+    public void obtenertipo(){
+        Connection conexion = cn.conector();
+        String sql = "select producto.TIPO_UNIDADES from producto where (producto.CODIGO = "+id+");";
+        Statement st;
+        try {
+            st = conexion.createStatement();
+            ResultSet result = st.executeQuery(sql);
+            
+            while (result.next()){
+              String tipo = result.getString(1);
+              tipo_unidades = tipo;
+              tipotxt.setText(tipo_unidades);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(solicitar_producto.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            cn.cierraConexion();
+            
+        }
     }
     public void llenarcombo(){
     Connection conexion = cn.conector();
@@ -144,7 +164,7 @@ public class nueva_entrada extends javax.swing.JFrame {
     String noenvio = nenvio.getText();
     String precio = punit.getText();
     String cant = cantunit.getText();
-    String validar = (String)combo.getSelectedItem();
+    String validar = tipotxt.getText();
     String date2 = this.fechavenc;
     String sql;
     if(validar.equals("UNIDADES")){
@@ -203,13 +223,13 @@ public class nueva_entrada extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         fechavencimiento = new com.toedter.calendar.JDateChooser();
         jLabel4 = new javax.swing.JLabel();
-        combo = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         productxt = new javax.swing.JLabel();
         busqueda = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
+        tipotxt = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Nueva Entrada de Producto");
@@ -287,12 +307,9 @@ public class nueva_entrada extends javax.swing.JFrame {
         jLabel4.setText("Producto Seleccionado:");
         jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 380, -1, -1));
 
-        combo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "UNIDADES", "LIBRAS" }));
-        jPanel1.add(combo, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 460, 180, -1));
-
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(26, 129, 135));
-        jLabel6.setText("Seleccione tipo de ingreso:");
+        jLabel6.setText("Tipo de ingreso:");
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 440, -1, -1));
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
@@ -318,6 +335,9 @@ public class nueva_entrada extends javax.swing.JFrame {
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/buscar.png"))); // NOI18N
         jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 100, -1, -1));
 
+        tipotxt.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jPanel1.add(tipotxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 470, 110, 20));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -341,6 +361,7 @@ public class nueva_entrada extends javax.swing.JFrame {
         this.desc = descrip;
         this.cat = categoria;
         btnregistrar.setEnabled(true);
+        obtenertipo();
     }//GEN-LAST:event_tableMouseClicked
 
     private void btnregistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnregistrarActionPerformed
@@ -390,7 +411,6 @@ public class nueva_entrada extends javax.swing.JFrame {
     private rscomponentshade.RSButtonShade btnregistrar;
     private javax.swing.JTextField busqueda;
     private rscomponentshade.RSTextFieldShade cantunit;
-    private javax.swing.JComboBox<String> combo;
     public javax.swing.JComboBox<String> combobox;
     private com.toedter.calendar.JDateChooser date;
     private com.toedter.calendar.JDateChooser fechavencimiento;
@@ -408,5 +428,6 @@ public class nueva_entrada extends javax.swing.JFrame {
     private javax.swing.JLabel productxt;
     private rscomponentshade.RSTextFieldShade punit;
     private rojerusan.RSTableMetro table;
+    private javax.swing.JLabel tipotxt;
     // End of variables declaration//GEN-END:variables
 }
