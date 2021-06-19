@@ -282,7 +282,7 @@ public class entradas extends javax.swing.JFrame {
         table.setColorSelBackgound(new java.awt.Color(26, 129, 135));
         table.setFuenteFilas(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         table.setFuenteFilasSelect(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        table.setRowHeight(25);
+        table.setRowHeight(30);
         table.setSelectionBackground(new java.awt.Color(26, 129, 135));
         table.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {

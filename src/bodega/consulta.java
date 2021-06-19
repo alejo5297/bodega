@@ -64,10 +64,10 @@ public class consulta extends javax.swing.JFrame {
       model.addColumn("Fecha");
       model.addColumn("Tipo de Movimiento");
       model.addColumn("Producto");
-      model.addColumn("Cantidad Unit");
-      model.addColumn("Cantidad Lbs");
+      model.addColumn("Unidades");
+      model.addColumn("Lbs");
       model.addColumn("Precio Unit");
-      model.addColumn("Precio Lbs");;
+      model.addColumn("Precio Lbs");
       table.setModel(model);
       String[] dato = new String[8];
      
@@ -110,10 +110,10 @@ public class consulta extends javax.swing.JFrame {
       model.addColumn("Fecha");
       model.addColumn("Tipo de Movimiento");
       model.addColumn("Producto");
-      model.addColumn("Cantidad Unit");
-      model.addColumn("Cantidad Lbs");
+      model.addColumn("Unidades");
+      model.addColumn("Lbs");
       model.addColumn("Precio Unit");
-      model.addColumn("Precio Lbs");;
+      model.addColumn("Precio Lbs");
       table.setModel(model);
       String[] dato = new String[8];
      
@@ -143,7 +143,7 @@ public class consulta extends javax.swing.JFrame {
     public void buscarentradas(){
         String buscar = busqueda.getText();
         Connection conexion = cn.conector();
-        String sql = "SELECT registro_movimientos.USUARIO, registro_movimientos.FECHA, "
+        String sql = "SELECT registro_movimientos.USUARIO, DATE_FORMAT(registro_movimientos.FECHA, '%d-%m-%Y'), "
               + "registro_movimientos.MOVIMIENTO, producto.DESCRIPCION, registro_movimientos.CANT_UNIT, "
               + "registro_movimientos.CANT_LBS, registro_movimientos.PRECIO_UNIT, "
               + "registro_movimientos.PRECIO_LBS "
@@ -156,10 +156,10 @@ public class consulta extends javax.swing.JFrame {
       model.addColumn("Fecha");
       model.addColumn("Tipo de Movimiento");
       model.addColumn("Producto");
-      model.addColumn("Cantidad Unit");
-      model.addColumn("Cantidad Lbs");
+      model.addColumn("Unidades");
+      model.addColumn("Lbs");
       model.addColumn("Precio Unit");
-      model.addColumn("Precio Lbs");;
+      model.addColumn("Precio Lbs");
       table.setModel(model);
       String[] dato = new String[8];
      
@@ -189,7 +189,7 @@ public class consulta extends javax.swing.JFrame {
     public void buscarsalidas(){
         String buscar = busqueda.getText();
         Connection conexion = cn.conector();
-        String sql = "SELECT registro_movimientos.USUARIO, registro_movimientos.FECHA, "
+        String sql = "SELECT registro_movimientos.USUARIO, DATE_FORMAT(registro_movimientos.FECHA, '%d-%m-%Y'), "
               + "registro_movimientos.MOVIMIENTO, producto.DESCRIPCION, registro_movimientos.CANT_UNIT, "
               + "registro_movimientos.CANT_LBS, registro_movimientos.PRECIO_UNIT, "
               + "registro_movimientos.PRECIO_LBS "
@@ -202,10 +202,10 @@ public class consulta extends javax.swing.JFrame {
       model.addColumn("Fecha");
       model.addColumn("Tipo de Movimiento");
       model.addColumn("Producto");
-      model.addColumn("Cantidad Unit");
-      model.addColumn("Cantidad Lbs");
+      model.addColumn("Unidades");
+      model.addColumn("Lbs");
       model.addColumn("Precio Unit");
-      model.addColumn("Precio Lbs");;
+      model.addColumn("Precio Lbs");
       table.setModel(model);
       String[] dato = new String[8];
      

@@ -57,10 +57,10 @@ public class nuevo_proveedor extends javax.swing.JFrame {
       String sql = "SELECT * FROM `bodega`.`proveedores`;";
       Statement st;
       DefaultTableModel model = new DefaultTableModel();
-      model.addColumn("ID");
-      model.addColumn("NOMBRE");
-      model.addColumn("TEL");
-      model.addColumn("DIRECCIÓN");;
+      model.addColumn("Id");
+      model.addColumn("Nombre");
+      model.addColumn("Teléfono");
+      model.addColumn("Dirección");
       table.setModel(model);
       String[] dato = new String[4];
      
@@ -89,10 +89,10 @@ public class nuevo_proveedor extends javax.swing.JFrame {
       String sql = "SELECT * FROM `bodega`.`proveedores` WHERE proveedores.NOMBRE like '%"+buscar+"%';";
       Statement st;
       DefaultTableModel model = new DefaultTableModel();
-      model.addColumn("ID");
-      model.addColumn("NOMBRE");
-      model.addColumn("TEL");
-      model.addColumn("DIRECCIÓN");;
+      model.addColumn("Id");
+      model.addColumn("Nombre");
+      model.addColumn("Teléfono");
+      model.addColumn("Dirección");
       table.setModel(model);
       String[] dato = new String[4];
      

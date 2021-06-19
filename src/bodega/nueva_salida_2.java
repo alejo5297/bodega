@@ -212,6 +212,7 @@ public class nueva_salida_2 extends javax.swing.JFrame {
         tipotxt = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         motivotxt = new rscomponentshade.RSTextFieldShade();
+        editar = new rscomponentshade.RSButtonShade();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Nueva Salida de Producto");
@@ -296,7 +297,7 @@ public class nueva_salida_2 extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(table);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 549, 500));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 550, 500));
 
         combodepto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "BODEGA", "CAMARERIA", "COCINA", "LAVANDERIA", "MANTENIMIENTO", "PANADERIA", "RESTAURANTE" }));
         jPanel1.add(combodepto, new org.netbeans.lib.awtextra.AbsoluteConstraints(722, 274, 187, -1));
@@ -326,6 +327,16 @@ public class nueva_salida_2 extends javax.swing.JFrame {
 
         motivotxt.setPlaceholder("Motivo");
         jPanel1.add(motivotxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 440, -1, -1));
+
+        editar.setBackground(new java.awt.Color(26, 129, 135));
+        editar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/editar.png"))); // NOI18N
+        editar.setBgHover(new java.awt.Color(26, 129, 135));
+        editar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(editar, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 260, 49, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -361,6 +372,12 @@ public class nueva_salida_2 extends javax.swing.JFrame {
     private void busqueda2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_busqueda2KeyPressed
         buscar();
     }//GEN-LAST:event_busqueda2KeyPressed
+
+    private void editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarActionPerformed
+        departamentos depto = new departamentos();
+        depto.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_editarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -401,6 +418,7 @@ public class nueva_salida_2 extends javax.swing.JFrame {
     private javax.swing.JTextField busqueda2;
     private javax.swing.JComboBox<String> combodepto;
     private com.toedter.calendar.JDateChooser date;
+    private rscomponentshade.RSButtonShade editar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

@@ -77,6 +77,7 @@ public class usuarios extends javax.swing.JFrame {
         busqueda = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         rSButtonShade4 = new rscomponentshade.RSButtonShade();
+        Editar = new rscomponentshade.RSButtonShade();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Usuarios");
@@ -173,7 +174,7 @@ public class usuarios extends javax.swing.JFrame {
         comborol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "Administrador", "Invitado" }));
         jPanel1.add(comborol, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 600, 210, -1));
 
-        jPanel1.add(combodepto, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 600, 230, -1));
+        jPanel1.add(combodepto, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 600, 180, -1));
 
         guardar.setBackground(new java.awt.Color(26, 129, 135));
         guardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/guardar.png"))); // NOI18N
@@ -218,15 +219,26 @@ public class usuarios extends javax.swing.JFrame {
         });
         jPanel1.add(rSButtonShade4, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 70, 40, 40));
 
+        Editar.setBackground(new java.awt.Color(26, 129, 135));
+        Editar.setText("Editar");
+        Editar.setBgHover(new java.awt.Color(26, 129, 135));
+        Editar.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        Editar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EditarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(Editar, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 600, 70, 30));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 894, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 894, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 713, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
@@ -529,6 +541,12 @@ public class usuarios extends javax.swing.JFrame {
         docpdf();        // TODO add your handling code here:
     }//GEN-LAST:event_rSButtonShade4ActionPerformed
 
+    private void EditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditarActionPerformed
+        departamentos depto = new departamentos();
+        depto.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_EditarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -565,6 +583,7 @@ public class usuarios extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private rscomponentshade.RSButtonShade Editar;
     private javax.swing.JTextField busqueda;
     private javax.swing.JComboBox<String> combodepto;
     private javax.swing.JComboBox<String> comborol;

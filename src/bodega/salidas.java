@@ -81,8 +81,8 @@ public class salidas extends javax.swing.JFrame {
         model.addColumn("Fecha de Egreso");
         model.addColumn("No. de Pedido");
         model.addColumn("Descripción");
-        model.addColumn("Cant. Unit");
-        model.addColumn("Cant. Lbs");
+        model.addColumn("Unidades");
+        model.addColumn("Lbs");
         model.addColumn("Precio Unit");
         model.addColumn("Precio Lbs");
         model.addColumn("Costo Total Unit");
@@ -136,7 +136,8 @@ public class salidas extends javax.swing.JFrame {
               + "CONCAT('Q ',inventario.PRECIO_UNIT), "
               + "CONCAT('Q ',inventario.PRECIO_LBS), "
               + "CONCAT('Q ',TRUNCATE(((salidas.CANT_UNIT)*(inventario.PRECIO_UNIT)),2)), "
-              + "CONCAT('Q ',TRUNCATE(((salidas.CANT_LBS)*(inventario.PRECIO_LBS)),2)) "
+              + "CONCAT('Q ',TRUNCATE(((salidas.CANT_LBS)*(inventario.PRECIO_LBS)),2)), "
+              + "salidas.MOTIVO "
               + "FROM `bodega`.`salidas`, `bodega`.`producto`, `bodega`.`inventario` "
               + "WHERE ((salidas.CODIGO = producto.CODIGO)AND(inventario.CODIGO = producto.CODIGO)AND(producto.DESCRIPCION like '%"+buscar+"%')) ORDER BY salidas.NO ;";
         Statement st;
@@ -149,14 +150,15 @@ public class salidas extends javax.swing.JFrame {
         model.addColumn("Fecha de Egreso");
         model.addColumn("No. de Pedido");
         model.addColumn("Descripción");
-        model.addColumn("Cant. Unit");
-        model.addColumn("Cant. Lbs");
+        model.addColumn("Unidades");
+        model.addColumn("Lbs");
         model.addColumn("Precio Unit");
         model.addColumn("Precio Lbs");
         model.addColumn("Costo Total Unit");
         model.addColumn("Costo Total Lbs");
+        model.addColumn("Motivo de Salida");
         table.setModel(model);
-        String[] dato = new String[14];
+        String[] dato = new String[15];
         try {
             st = conexion.createStatement();
             ResultSet result = st.executeQuery(sql);
@@ -175,6 +177,7 @@ public class salidas extends javax.swing.JFrame {
                 dato[11]=result.getString(12);
                 dato[12]=result.getString(13);
                 dato[13]=result.getString(14);
+                dato[14]=result.getString(15);
                 model.addRow(dato);
                 System.out.println(result.getString(1));
             }
@@ -300,7 +303,7 @@ public class salidas extends javax.swing.JFrame {
         table.setColorSelBackgound(new java.awt.Color(26, 129, 135));
         table.setFuenteFilas(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         table.setFuenteFilasSelect(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        table.setRowHeight(25);
+        table.setRowHeight(30);
         table.setSelectionBackground(new java.awt.Color(26, 129, 135));
         jScrollPane1.setViewportView(table);
 
