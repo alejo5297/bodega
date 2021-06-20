@@ -278,6 +278,7 @@ public class salidas extends javax.swing.JFrame {
         busqueda = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         rSButtonShade4 = new rscomponentshade.RSButtonShade();
+        rSButtonShade3 = new rscomponentshade.RSButtonShade();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Salidas de Producto");
@@ -318,7 +319,7 @@ public class salidas extends javax.swing.JFrame {
                 rSButtonShade2ActionPerformed(evt);
             }
         });
-        jPanel1.add(rSButtonShade2, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 690, 160, -1));
+        jPanel1.add(rSButtonShade2, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 700, 160, -1));
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 38)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(26, 129, 135));
@@ -344,6 +345,17 @@ public class salidas extends javax.swing.JFrame {
             }
         });
         jPanel1.add(rSButtonShade4, new org.netbeans.lib.awtextra.AbsoluteConstraints(1750, 130, 40, 40));
+
+        rSButtonShade3.setBackground(new java.awt.Color(26, 129, 135));
+        rSButtonShade3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/reporte.png"))); // NOI18N
+        rSButtonShade3.setText("Reporte de salidas");
+        rSButtonShade3.setBgHover(new java.awt.Color(26, 129, 135));
+        rSButtonShade3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rSButtonShade3ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(rSButtonShade3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1600, 700, 190, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -374,6 +386,11 @@ public class salidas extends javax.swing.JFrame {
     private void rSButtonShade4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSButtonShade4ActionPerformed
         docpdf();        // TODO add your handling code here:
     }//GEN-LAST:event_rSButtonShade4ActionPerformed
+
+    private void rSButtonShade3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSButtonShade3ActionPerformed
+        reporte_salidas rs = new reporte_salidas();
+        rs.setVisible(true);
+    }//GEN-LAST:event_rSButtonShade3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -417,6 +434,7 @@ public class salidas extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private rscomponentshade.RSButtonShade rSButtonShade2;
+    private rscomponentshade.RSButtonShade rSButtonShade3;
     private rscomponentshade.RSButtonShade rSButtonShade4;
     private rojerusan.RSTableMetro table;
     // End of variables declaration//GEN-END:variables
