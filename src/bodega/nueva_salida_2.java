@@ -322,7 +322,7 @@ public class nueva_salida_2 extends javax.swing.JFrame {
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(26, 129, 135));
-        jLabel8.setText("Unidades:");
+        jLabel8.setText("Cantidad:");
         jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(578, 391, -1, -1));
 
         motivotxt.setPlaceholder("Motivo");
