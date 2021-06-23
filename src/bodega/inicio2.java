@@ -285,6 +285,7 @@ public class inicio2 extends javax.swing.JFrame {
         busqueda = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         rSButtonShade9 = new rscomponentshade.RSButtonShade();
+        rSToggleButtonShade2 = new rscomponentshade.RSToggleButtonShade();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sistema de Kardex y Pedidos a Bodega");
@@ -454,6 +455,18 @@ public class inicio2 extends javax.swing.JFrame {
         });
         jPanel1.add(rSButtonShade9, new org.netbeans.lib.awtextra.AbsoluteConstraints(1790, 180, 40, 40));
 
+        rSToggleButtonShade2.setBackground(new java.awt.Color(26, 129, 135));
+        rSToggleButtonShade2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/backup.png"))); // NOI18N
+        rSToggleButtonShade2.setText("Backup");
+        rSToggleButtonShade2.setBgHover(new java.awt.Color(26, 129, 135));
+        rSToggleButtonShade2.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        rSToggleButtonShade2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rSToggleButtonShade2ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(rSToggleButtonShade2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1330, 810, 100, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -514,7 +527,7 @@ public class inicio2 extends javax.swing.JFrame {
     }//GEN-LAST:event_rSButtonShade7ActionPerformed
 
     private void rSToggleButtonShade1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSToggleButtonShade1ActionPerformed
-        this.setVisible(false);
+        this.dispose();
         login ln = new login();
         ln.setVisible(true);
     }//GEN-LAST:event_rSToggleButtonShade1ActionPerformed
@@ -532,6 +545,18 @@ public class inicio2 extends javax.swing.JFrame {
     private void rSButtonShade9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSButtonShade9ActionPerformed
         docpdf();        // TODO add your handling code here:
     }//GEN-LAST:event_rSButtonShade9ActionPerformed
+
+    private void rSToggleButtonShade2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSToggleButtonShade2ActionPerformed
+        try
+        {
+            Process p = Runtime.getRuntime().exec ("C:\\Program Files\\MySQL\\MySQL Server 8.0\\bin\\backup.bat");
+            JOptionPane.showMessageDialog(null, "Copia de seguridad de la base de datos creada");
+        }
+        catch (Exception e)
+        {
+            JOptionPane.showMessageDialog(null, "No se pudo crear la copia de seguridad de la base de datos");
+        }
+    }//GEN-LAST:event_rSToggleButtonShade2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -587,6 +612,7 @@ public class inicio2 extends javax.swing.JFrame {
     private rscomponentshade.RSButtonShade rSButtonShade8;
     private rscomponentshade.RSButtonShade rSButtonShade9;
     private rscomponentshade.RSToggleButtonShade rSToggleButtonShade1;
+    private rscomponentshade.RSToggleButtonShade rSToggleButtonShade2;
     private rojerusan.RSTableMetro table;
     // End of variables declaration//GEN-END:variables
 }

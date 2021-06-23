@@ -494,10 +494,14 @@ public class usuarios extends javax.swing.JFrame {
         String apellido = String.valueOf(tm.getValueAt(table.getSelectedRow(),2));
         String usuario = String.valueOf(tm.getValueAt(table.getSelectedRow(),3));
         String contrasena = String.valueOf(tm.getValueAt(table.getSelectedRow(),4));
+        String departamento = String.valueOf(tm.getValueAt(table.getSelectedRow(),5));
+        String rol = String.valueOf(tm.getValueAt(table.getSelectedRow(),6));
         txtnombre.setText(nombre);
         txtapellido.setText(apellido);
         txtusuario.setText(usuario);
         txtcontrasena.setText(contrasena);
+        combodepto.setSelectedItem(departamento);
+        comborol.setSelectedItem(rol);
         this.id = codigo;
     }//GEN-LAST:event_tableMouseClicked
 
