@@ -153,6 +153,7 @@ public class pedidos extends javax.swing.JFrame {
         String num_pedido = String.valueOf(tm.getValueAt(table.getSelectedRow(),1));
         String codproducto = String.valueOf(tm.getValueAt(table.getSelectedRow(),2));
         String producto = String.valueOf(tm.getValueAt(table.getSelectedRow(),4));
+        String fechapedido = String.valueOf(tm.getValueAt(table.getSelectedRow(),5));
         String cantidad = String.valueOf(tm.getValueAt(table.getSelectedRow(),6));
         String depto = String.valueOf(tm.getValueAt(table.getSelectedRow(), 8));
         b.id = id;

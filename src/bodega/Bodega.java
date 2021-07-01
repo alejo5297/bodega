@@ -10,7 +10,7 @@ package bodega;
  * @author jagh_
  */
 public class Bodega {
-    public static String nombre,id,numpedido,usuario,depto,cant,producto,codproduct;
+    public static String nombre,id,numpedido,usuario,depto,cant,producto,codproduct,fecha;
     public static void main(String[] args) {
     
        Conexion cn= new Conexion();

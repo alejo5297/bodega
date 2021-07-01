@@ -12,7 +12,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -24,7 +26,7 @@ import javax.swing.JOptionPane;
  */
 public class nueva_salida extends javax.swing.JFrame {
     Bodega bd = new Bodega();
-    public String numpedido,depto,cant,producto,fecha,codproduct;
+    public String numpedido,depto,cant,producto,fecha,codproduct,fechadb,valstock;
     public String nombre = bd.nombre;
     public String id = bd.id;
     
@@ -43,6 +45,7 @@ public class nueva_salida extends javax.swing.JFrame {
         this.txtdepto.setText(depto);
         this.txtcantidad.setText(cant);
         obtenertipo();
+        fecha();
     }
     
     Conexion cn = new Conexion();
@@ -62,21 +65,24 @@ public class nueva_salida extends javax.swing.JFrame {
     }
     public void fecha(){
         try {
-        Date  fecha=date.getDate();
-        DateFormat f=new SimpleDateFormat("yyyy-MM-dd");
-        String fecha2 =f.format(fecha);
-        this.fecha = fecha2;
+        Calendar fecha = new GregorianCalendar();
+        int anio = fecha.get(Calendar.YEAR);
+        int mes = fecha.get(Calendar.MONTH);
+        int dia = fecha.get(Calendar.DAY_OF_MONTH);
+        this.fecha = dia + "/" + (mes+1) + "/" + anio;
+        this.fechadb = anio+"-"+(mes+1)+"-"+dia;
+        txtfecha.setText(this.fecha);
     } catch (Exception e) {
     }
     }
+    
     public void guardar(){
-        fecha();
     actualizar();
     Connection conexion = cn.conector();
     String codigo = this.codproduct;
     String unidad = tipotxt.getText();
     String user = nombre;
-    String date = this.fecha;
+    String date = this.fechadb;
     String depto = this.depto;
     String nopedido = this.numpedido;
     String cant = this.cant;
@@ -114,7 +120,7 @@ public class nueva_salida extends javax.swing.JFrame {
     }
     public void obtenertipo(){
         Connection conexion = cn.conector();
-        String sql = "select producto.TIPO_UNIDADES from producto where (producto.CODIGO = "+id+");";
+        String sql = "select producto.TIPO_UNIDADES from producto where (producto.CODIGO = "+bd.codproduct+");";
         Statement st;
         try {
             st = conexion.createStatement();
@@ -140,7 +146,6 @@ public class nueva_salida extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        date = new com.toedter.calendar.JDateChooser();
         jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         txtcantidad = new rscomponentshade.RSTextFieldShade();
@@ -150,6 +155,7 @@ public class nueva_salida extends javax.swing.JFrame {
         txtdepto = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         tipotxt = new javax.swing.JLabel();
+        txtfecha = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Despacho de Producto");
@@ -172,7 +178,6 @@ public class nueva_salida extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(26, 129, 135));
         jLabel3.setText("Fecha de salida:");
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 270, -1, -1));
-        jPanel1.add(date, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 270, 137, -1));
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(26, 129, 135));
@@ -215,6 +220,9 @@ public class nueva_salida extends javax.swing.JFrame {
         tipotxt.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jPanel1.add(tipotxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 330, 110, 20));
 
+        txtfecha.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jPanel1.add(txtfecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 270, 200, 20));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -230,7 +238,56 @@ public class nueva_salida extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void rSButtonShade1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSButtonShade1ActionPerformed
-        guardar();
+        double ctd=0, stck=0;
+        String unidad = tipotxt.getText();
+        Connection conexion = cn.conector();
+        
+        if(unidad.equals("UNIDADES")){
+          String sql = "select (inventario.ENTRADAS_UNITARIAS - inventario.SALIDAS_UNITARIAS) "
+              + "from producto, inventario "
+              + "where (inventario.CODIGO = "+bd.codproduct+");"; 
+            Statement st;
+            try {
+            st = conexion.createStatement();
+            ResultSet result = st.executeQuery(sql);
+            while (result.next()){
+              this.valstock = result.getString(1);
+              ctd = Double.parseDouble(this.cant);
+              stck = Double.parseDouble(valstock);
+            }
+            } catch (SQLException ex) {
+            Logger.getLogger(solicitar_producto.class.getName()).log(Level.SEVERE, null, ex);
+            }finally{
+            cn.cierraConexion();
+            }
+        }
+        
+        if(unidad.equals("LIBRAS")){
+            String sql = "select (inventario.ENTRADAS_LBS - inventario.SALIDAS_LBS) "
+              + "from producto, inventario "
+              + "where (inventario.CODIGO = "+bd.codproduct+");"; 
+            Statement st;
+            try {
+            st = conexion.createStatement();
+            ResultSet result = st.executeQuery(sql);
+            while (result.next()){
+              this.valstock = result.getString(1);
+              ctd = Double.parseDouble(this.cant);
+              stck = Double.parseDouble(valstock);
+            }
+            } catch (SQLException ex) {
+            Logger.getLogger(solicitar_producto.class.getName()).log(Level.SEVERE, null, ex);
+            }finally{
+            cn.cierraConexion();
+            }
+        }
+        
+        if(ctd<=stck){
+           guardar();
+        }
+        else{
+           JOptionPane.showMessageDialog(null, "No tiene suficiente stock en el inventario.");
+           }
     }//GEN-LAST:event_rSButtonShade1ActionPerformed
 
     /**
@@ -269,7 +326,6 @@ public class nueva_salida extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.toedter.calendar.JDateChooser date;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -281,6 +337,7 @@ public class nueva_salida extends javax.swing.JFrame {
     private javax.swing.JLabel tipotxt;
     public rscomponentshade.RSTextFieldShade txtcantidad;
     public javax.swing.JLabel txtdepto;
+    private javax.swing.JLabel txtfecha;
     public javax.swing.JLabel txtnumpedido;
     public javax.swing.JLabel txtproducto;
     // End of variables declaration//GEN-END:variables
