@@ -20,10 +20,13 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -257,6 +260,31 @@ public class inicio extends javax.swing.JFrame {
      }catch (IOException ex) {
             System.out.println(ex);
      }                                     
+    }
+    
+    private void backupdb(){
+      DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
+      String fecha = (dtf.format(LocalDateTime.now()));
+        try {
+      Process p = Runtime
+            .getRuntime()
+            .exec("C:\\Program Files\\MySQL\\MySQL Server 8.0\\bin\\mysqldump -h localhost -u admin -pSistemas123* bodega");
+
+      InputStream is = p.getInputStream();
+      FileOutputStream fos = new FileOutputStream("D:\\RESPALDOS_MYSQL\\BackupBD_"+fecha+".sql");
+      byte[] buffer = new byte[1000];
+
+      int leido = is.read(buffer);
+      while (leido > 0) {
+         fos.write(buffer, 0, leido);
+         leido = is.read(buffer);
+      }
+
+      fos.close();
+
+   } catch (Exception e) {
+      e.printStackTrace();
+   }
     }
     
     @SuppressWarnings("unchecked")
@@ -543,15 +571,7 @@ public class inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_rSButtonShade10ActionPerformed
 
     private void rSToggleButtonShade2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSToggleButtonShade2ActionPerformed
-        try
-        {
-            Process p = Runtime.getRuntime().exec ("C:\\Program Files\\MySQL\\MySQL Server 8.0\\bin\\backup.bat");
-            JOptionPane.showMessageDialog(null, "Copia de seguridad de la base de datos creada");
-        }
-        catch (Exception e)
-        {
-            JOptionPane.showMessageDialog(null, "No se pudo crear la copia de seguridad de la base de datos");
-        }
+       backupdb();
     }//GEN-LAST:event_rSToggleButtonShade2ActionPerformed
 
     /**

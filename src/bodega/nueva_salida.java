@@ -238,6 +238,7 @@ public class nueva_salida extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void rSButtonShade1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSButtonShade1ActionPerformed
+        this.cant = txtcantidad.getText();
         double ctd=0, stck=0;
         String unidad = tipotxt.getText();
         Connection conexion = cn.conector();
@@ -283,7 +284,7 @@ public class nueva_salida extends javax.swing.JFrame {
         }
         
         if(ctd<=stck){
-           guardar();
+            guardar();
         }
         else{
            JOptionPane.showMessageDialog(null, "No tiene suficiente stock en el inventario.");
